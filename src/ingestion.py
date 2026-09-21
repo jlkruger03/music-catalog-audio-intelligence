@@ -57,6 +57,13 @@ def clean_spotify_catalog(
     if missing_cols:
         raise ValueError(f"Dataset is missing essential columns: {missing_cols}")
 
+    # Strip brackets, single quotes, double quotes and trailing whitespace from artist names
+    df["artist_name"] = (
+        df["artist_name"]
+        .astype(str)
+        .str.strip("[]'\" ")
+    )
+
     # Coerce audio features to numeric; bad values become NaN and get dropped below
     df[audio_cols] = df[audio_cols].apply(pd.to_numeric, errors="coerce")
 

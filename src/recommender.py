@@ -23,14 +23,18 @@ class AudioRecommender:
         against all tracks in the catalog, and returns the closest match
         """
 
-        # Search query matching
-        query_mask = self.df["track_name"].str.contains(track_name, case=False, na=False)
+        # Exact matching is faster and immune to special characters / regex errors
         if artist_name:
-            query_mask = query_mask & self.df["artist_name"].str.contains(artist_name, case=False, na=False)
+            matches = self.df[(self.df["track_name"] == track_name) & (self.df["artist_name"] == artist_name)]
+        else:
+            matches = self.df[self.df["track_name"] == track_name]
 
-        matches = self.df[query_mask]
+        # Fallback to contains if exact match didn't find anything
         if matches.empty:
-            return None, f"Track '{track_name}' not found in catalog."
+            matches = self.df[self.df["track_name"].str.contains(track_name, case=False, regex=False, na=False)]
+
+        if matches.empty:
+            return None, pd.DataFrame()
 
         # Take first match if multiple exist
         target_idx = matches.index[0]
