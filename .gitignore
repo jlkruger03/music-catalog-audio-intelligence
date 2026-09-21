@@ -179,3 +179,26 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# ----------------------------------------------------
+# Project-Specific Ignores (PyCharm, Data & Models)
+# ----------------------------------------------------
+
+# Ignore all PyCharm IDE workspace and config files
+.idea/
+*.iws
+*.iml
+
+# Ignore large datasets (keeps repo lightweight)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Ignore serialized models and scalers
+models/*
+!models/.gitkeep
+
+# Windows / OS metadata
+Thumbs.db
+Desktop.ini
