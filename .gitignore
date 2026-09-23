@@ -189,15 +189,19 @@ cython_debug/
 *.iws
 *.iml
 
-# Ignore large datasets (keeps repo lightweight)
+# Ignore raw bulky CSVs
 data/raw/*
-data/processed/*
 !data/raw/.gitkeep
-!data/processed/.gitkeep
 
-# Ignore serialized models and scalers
+# Allow Git into data/processed, but ignore everything EXCEPT the clustered parquet
+data/processed/*
+!data/processed/.gitkeep
+!data/processed/clustered_tracks.parquet
+
+# Allow Git into models, but track the joblib model files
 models/*
 !models/.gitkeep
+!models/*.joblib
 
 # Windows / OS metadata
 Thumbs.db
